@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .models import studentDetails
 # Create your views here.
-def adminLoginPage(request): #returns admin login page template
-    return render(request,template_name='adminLogin.html')
+def adminLoginPage(request): #URL- adminlogin : returns admin login page template  
+    return render(request,template_name='adminLogin.html') 
 @csrf_exempt
 def adminLoginValidation(request):          # validates user login
     username=request.POST['username']
@@ -13,7 +13,8 @@ def adminLoginValidation(request):          # validates user login
         return render(request,'adminLeftPane.html')
     else:
         return render(request,'adminLogin.html',{'error':'True'})
-
+def studentHomePage(request):
+    return render(request,'studentHome.html')
 def viewStudentDetails(request):  # returns all the details of students
     students=studentDetails.objects.all()
     return render(request,'studentDetails.html',{'studentDetails':students})

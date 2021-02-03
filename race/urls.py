@@ -21,4 +21,5 @@ urlpatterns = [
     path('adminlogin',views.adminLoginPage,name='admin'),
     path('adminloginvalidation',views.adminLoginValidation,name='admin'),
     path('viewstudentdetails',views.viewStudentDetails),
+    path('studenthome',views.studentHomePage)
 ]
