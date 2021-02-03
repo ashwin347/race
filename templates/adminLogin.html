@@ -1,0 +1,12 @@
+<html>
+    <body>
+        {% if error == 'True' %}
+        <h1>Username and password doesnot match</h1>
+        {% endif %}
+        <form method='POST' action='adminloginvalidation'> 
+        <input type=text name='username'>
+        <input type=text name='password'>
+        <button type='submit'>Login</button>
+    </form>
+    </body>
+</html>
