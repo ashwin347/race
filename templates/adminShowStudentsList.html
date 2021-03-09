@@ -1,0 +1,150 @@
+<button class="waves-effect waves-light btn" onclick=back('{{back}}')>Back</button>
+<script>
+  function back(val){
+  $('#rightPane').load(val);
+}
+</script>
+
+<div class="table-responsive">
+
+                
+    <table id="mytable" class="table table-bordred table-striped">
+         
+         <thead style='background-color:#50509c;color:white'>
+         
+         <th>Sl.</th>
+           <th>Student Name</th>
+         </thead>
+<tbody>
+{% for student in students %}
+<tr>
+<td>{{forloop.counter}}</td>
+<td>{{student.0}}</td>
+</tr>
+{% endfor %}
+<script>
+  function editModal(id){
+    {% for event in events %}
+    if({{event.0}}==id)
+    {
+      document.getElementById('title').value='{{event.1}}';
+      document.getElementById('description').value='{{event.2}}';
+      var d = new Date("{{event.3}}");
+      console.log(d)
+      document.getElementById('date').value=d;
+    }
+    {% endfor %}
+  }
+  function editEvent(id){
+    title=document.getElementById('title').value;
+                        description=document.getElementById('description').value;
+                        date=document.getElementById('date').value;
+  }
+    function deleteEvent(id){
+        $.post( "deleteeventdata",{'id':id}, function( data ) {
+            $("#rightPane").load("showallevents");
+}
+);
+    }
+    function viewSubmits(id){
+
+    }
+</script>
+
+
+</tbody>
+
+</table>
+
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+<li class="active"><a href="#">1</a></li>
+<li><a href="#">2</a></li>
+<li><a href="#">3</a></li>
+<li><a href="#">4</a></li>
+<li><a href="#">5</a></li>
+<li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+</ul>
+      
+  </div>
+  <div id="myModal" class="modal fade" role="dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Event Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row" style='background-color:white;margin-top:2%'>
+                <form class="col-lg-8" >
+                  <div class="row">
+                    <div  class="input-field col s6 notransition">
+                      
+                      <input id="title" type="text" class="validate notransition">
+                      <label for="title">Title</label>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="description" type="text" class="validate">
+                      <label for="description">description</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="date" type="date" class="validate">
+                      <label for="date">date </label>
+                    </div>
+                  </div>
+                  
+              <a class="waves-effect waves-light btn" onclick=insertNewEvent() >ADD</a>
+                </form>
+                <script>
+                    function insertNewEvent(){
+                        title=document.getElementById('title').value;
+                        description=document.getElementById('description').value;
+                        date=document.getElementById('date').value;
+                        $.post('insertnewevent',{'title':title,'description':description,'date':date},function(data,status){
+                            $(".modal-backdrop").remove();
+  $("#myModal").hide();
+                            $("#rightPane").load("showallevents");
+                        })
+                    }
+                </script>
+              </div>
+                    
+        </div>
+      </div>
+  
+  </div>
+  <div id="myModal" class="modal fade" role="dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row" style='background-color:white;margin-top:2%'>
+              <table>
+                <thead>
+                  <th>Sl. No</th>
+                  <th> Student Name</th>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+                
+            <a class="waves-effect waves-light btn"  >CLOSE</a>
+              
+            </div>
+                  
+      </div>
+    </div>
+
+</div>

@@ -1,0 +1,52 @@
+<style>
+  .notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+</style>
+  <div class="row" style='background-color:white;margin-top:2%'>
+    <form style='color:green' class="col-lg-8" >
+      <div class="row">
+        <div  class="input-field col s6 notransition">
+          
+          <input id="first_name" type="text" value={{data.1}} class="validate notransition">
+          <label for="first_name">Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="disabled" type="Number" value={{data.3}} class="validate">
+          <label for="disabled">Phone</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" value={{data.4}} class="validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="text" value={{data.5}} class="validate">
+          <label for="email">Blood</label>
+        </div>
+      </div>
+      
+  <a class="waves-effect waves-light btn" onclick='updatestudentprofile({{data.0}})'><i class="material-icons left"></i>UPDATE</a>
+    </form>
+    <script>
+      document.getElementById('first_name').focus()
+      document.getElementById('disabled').focus()
+      document.getElementById('password').focus()
+      document.getElementById('email').focus()
+      
+      inputs=document.getElementsByTagName('input')
+      console.log(inputs)
+      for(var i=0;i<inputs.length;i++){
+        inputs[i].click()
+      }
+    </script>
+  </div>
+        

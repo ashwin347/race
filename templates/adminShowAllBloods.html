@@ -1,0 +1,160 @@
+<button class="waves-effect waves-light btn" data-toggle="modal" data-target="#myModal">New</button>
+<div class="table-responsive">
+
+                
+    <table id="mytable" class="table table-bordred table-striped">
+         
+         <thead style='background-color:#50509c;color:white'>
+         <th>Recipient Name</th>
+         <th>Contact Number</th>
+         <th>required blood group</th>   
+         <th>Edit</th>
+            
+             <th>Delete</th>
+             <th>Registrations</th>
+         </thead>
+<tbody>
+{% for blood in bloods %}
+<tr>
+
+<td>{{blood.1}}</td>
+<td>{{blood.2}}</td>
+<td>{{blood.3}}</td>
+<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button onclick=editModal({{blood.0}}) class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick=deleteBlood({{blood.0}}) class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+{% if blood.4 != 0 %}
+<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick=viewSubmits({{blood.0}}) class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><b>{{blood.4}}</b> | View Submits </button></p></td>
+{% else %}
+<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >No Submissions </button></p></td>
+{% endif %}
+</tr>
+{% endfor %}
+<script>
+  
+  function viewSubmits(id){
+    $("#rightPane").load("liststudents?id="+id+'&type=bloodregistrations&back=showallbloods'); 
+    }
+  function editModal(id){
+    {% for blood in bloods %}
+    if({{blood.0}}==id)
+    {
+      document.getElementById('name').value='{{blood.3}}';
+      document.getElementById('blood').value='{{blood.1}}';
+      document.getElementById('contact').value='{{blood.2}}';
+      var d = new Date("{{blood.3}}");
+      console.log(d)
+      document.getElementById('date').value=d;
+    }
+    {% endfor %}
+  }
+  function editBlood(id){
+    title=document.getElementById('title').value;
+                        description=document.getElementById('description').value;
+                        date=document.getElementById('date').value;
+  }
+    function deleteBlood(id){
+        $.post( "deleteblooddata",{'id':id}, function( data ) {
+            $("#rightPane").load("showallbloods");
+}
+);
+    }
+</script>
+
+
+</tbody>
+
+</table>
+
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+<li class="active"><a href="#">1</a></li>
+<li><a href="#">2</a></li>
+<li><a href="#">3</a></li>
+<li><a href="#">4</a></li>
+<li><a href="#">5</a></li>
+<li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+</ul>
+      
+  </div>
+  <div id="myModal" class="modal fade" role="dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">blood Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row" style='background-color:white;margin-top:2%'>
+                <form class="col-lg-8" >
+                  <div class="row">
+                    <div  class="input-field col s6 notransition">
+                      
+                      <input id="name" type="text" class="validate notransition">
+                      <label for="name">Name</label>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="contact" type="Number" class="validate">
+                      <label for="contact">Contact Number</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="blood" type="text" class="validate">
+                      <label for="blood">required blood </label>
+                    </div>
+                  </div>
+                  
+              <a class="waves-effect waves-light btn" onclick=insertNewBlood() >ADD</a>
+                </form>
+                <script>
+                    function insertNewBlood(){
+                        name=document.getElementById('name').value;
+                        contact=document.getElementById('contact').value;
+                        blood=document.getElementById('blood').value;
+                        $.post('insertnewblood',{'name':name,'contact':contact,'blood':blood},function(data,status){
+
+                          $(".modal-backdrop").remove();
+  $("#myModal").hide();
+                            $("#rightPane").load("showallbloods");
+                        })
+                    }
+                </script>
+              </div>
+                    
+        </div>
+      </div>
+  
+  </div>
+  <div id="myModal" class="modal fade" role="dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row" style='background-color:white;margin-top:2%'>
+              <table>
+                <thead>
+                  <th>Sl. No</th>
+                  <th> Student Name</th>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+                
+            <a class="waves-effect waves-light btn"  >CLOSE</a>
+              
+            </div>
+                  
+      </div>
+    </div>
+
+</div>

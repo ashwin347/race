@@ -1,0 +1,76 @@
+
+       
+         
+            <div class="table-responsive">
+              <table id="mytable" style='background-color:white' class="responsive-table centered stripped">
+                   
+                   <thead style='background-color: #26a69a; color: white '>
+                   
+                   <th>Jobs</th>
+                   <th>Last Date </th>
+                      <th>Status</th>
+                   </thead>
+    <tbody>
+      {% for job in jobs %}
+      <td>{{job.1}}</td>
+      <td>{{job.3}}</td>
+    <td>
+      {% if job.4 == 'false' %}
+      <p onclick='apply({{job.0}})' data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="eventModal" data-target="#edit" ><span class="glyphicon glyphicon-star"></span>Apply</button></p>
+      {% else %}
+      <p onclick='cancel({{job.0}})' data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="eventModal" data-target="#edit" ><span class="glyphicon glyphicon-star"></span>Cancel</button></p>
+      {% endif %}
+    </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+        
+</table>
+<script>
+  function apply(id){
+    $.post('applystudentjob',{'jobid':id}, function(data, status){
+      $("#rightPane").load("studentjobs");
+}); 
+  }
+  function cancel(id){
+    $.post('cancelstudentjob',{'jobid':id}, function(data, status){
+      $("#rightPane").load("studentjobs");
+}); 
+  }
+</script>
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+<div class="modal-content">
+      <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+    <h4 class="modal-title custom_align" id="Heading"> {{event.1}}</h4>
+  </div>
+      <div class="modal-body">
+     
+    <div id='description'></div>
+
+    
+    </div>
+  </div>
+      <div class="modal-footer ">
+    <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+  </div>
+    </div>
+<!-- /.modal-content --> 
+</div>
+  <!-- /.modal-dialog --> 
+</div>
+<div class="clearfix"></div>
+<ul class="pagination">
+  <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+  <li class="active"><a href="#!">1</a></li>
+  <li class="waves-effect"><a href="#!">2</a></li>
+  <li class="waves-effect"><a href="#!">3</a></li>
+  <li class="waves-effect"><a href="#!">4</a></li>
+  <li class="waves-effect"><a href="#!">5</a></li>
+  <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+</ul>
+                
+            </div>
+            
+    </div>

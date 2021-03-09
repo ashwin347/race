@@ -1,5 +1,5 @@
 <html>
-    
+    {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
     <!-- jQuery library -->
@@ -7,26 +7,31 @@
     
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <body >
-        {% if error == 'True' %}
-        <h1>Username and password doesnot match</h1>
-        {% endif %}
+    <body style=background:url("{% static 'loginWallpaper.jpg' %}")>
         <div class='container-fluid'>
-            <div class="row align-items-center">
-                <div class="col-md-6 login-form-1">
-                    <h3>Login for Form 1</h3>
+            <div class="row">
+                <div class="col-md-6 login-form-1 " style=margin-left:25%;margin-top:5%;background-color:white;background-size:cover >
+                    <h3><b>Admin Login</b></h3>
+                    {% if error == 'True' %}
+                    <h4 class='text-danger mx-auto' style='width:100%'>Username and password doesnot match</h4>
+                    {% endif %}
                     <form method=POST action=adminloginvalidation >
                         <div class="form-group">
-                            <input name=username type="text" class="form-control" placeholder="Your Email *" value="" />
+                            <input name=email type="text" class="form-control" placeholder="Your Email *" value="" />
                         </div>
                         <div class="form-group">
                             <input name=password type="password" class="form-control" placeholder="Your Password *" value="" />
                         </div>
+                        <div class='container-fluid '>
+                            <div class="form-group" >
+                                <input type="submit" style='margin-left:25%;' class="btnSubmit " value="Login" />
+                            </div>
+                            <div class="form-group" >
+                                <a href='welcome' ><input class="btnSubmit" style='margin-left:25%;' value="Back" /></a>
+                            </div>
+                    </div>
                         <div class="form-group">
-                            <input type="submit" class="btnSubmit" value="Login" />
-                        </div>
-                        <div class="form-group">
-                            <a href="#" class="ForgetPwd">Forget Password?</a>
+                            
                         </div>
                     </form>
                 </div>

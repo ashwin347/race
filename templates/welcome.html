@@ -1,0 +1,39 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+          
+<body style=background:url("{% static 'welcomeWallpaper.jpg' %}")>
+    <div class='container-fluid'>
+  <div  class="row justify-content-center">
+    <div onclick='window.location.href="adminlogin"' class="col-md-2">
+      <div class="card ">
+        <div class="card-image">
+          <img src="{% static 'adminIcon.jpg' %}" style='height:35%;width:100%'>
+        </div>
+        <div class="card-action" style='width:auto'>
+          <a href="adminlogin">ADMIN</a>
+        </div>
+      </div>
+    </div>
+    <div  class="row justify-content-center">
+        <div onclick='window.location.href="studentlogin"' class="col-md-2">
+          <div class="card ">
+            <div class="card-image">
+              <img src="{% static 'studentIcon.jpg' %}" style='height:35%;width:100%'>
+            </div>
+            <div class="card-action" style='width:auto'>
+              <a>STUDENT</a>
+            </div>
+          </div>
+        </div>
+</body>
