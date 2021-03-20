@@ -89,13 +89,10 @@ def deleteStudentData(request):
     id=request.POST['id']
     connection=mysql.connector.connect(host='localhost',user='root',password='',database='race')
     cursor=connection.cursor()
-    email=request.session['email']
-    cursor.execute('select id from students where email="'+email+'"')
-    sid=cursor.fetchall()[0][0]
     cursor.execute('Delete FROM `students` where id= "'+id+'"')
-    cursor.execute('Delete FROM `eventregistrations` where studentId= "'+sid+'"')
-    cursor.execute('Delete FROM `jobregistrations` where studentid= "'+sid+'"')
-    cursor.execute('Delete FROM `bloodregistrations` where studentid= "'+sid+'"')
+    cursor.execute('Delete FROM `eventregistrations` where studentId= "'+id+'"')
+    cursor.execute('Delete FROM `jobregistrations` where studentid= "'+id+'"')
+    cursor.execute('Delete FROM `bloodregistrations` where studentid= "'+id+'"')
     connection.commit()
     return renderAdminShowStudents(request)
 @csrf_exempt
