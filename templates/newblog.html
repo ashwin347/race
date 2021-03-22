@@ -1,0 +1,47 @@
+{% load static %}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>        
+<body style='background:url("{% static 'singleBlogBackground.jpg' %}")'>
+    <div class='container col-lg-8' style='background-color:white;margin-top:5%'>
+        <h2>Blog Title</h2>
+        <input style='margin-top:30px' id=title value={{blog.1}}>
+        <h4 style='margin-top:80px'>Blog Description</h4>
+
+        <input  id=desc >
+        <a style='background:rgb(67, 175, 67);color:white;margin:40px' onclick='insertblog({{blog.0}})' class="waves-effect waves-light btn">Submit</a>
+        
+    <a style='background:rgb(233, 64, 64);color:white;margin:40px' onclick='closew()' class="waves-effect waves-light btn">Close</a>
+</div>
+<style>
+</style>
+<script>
+    function closew(){
+        window.open("", "_self");
+window.close();
+    }
+     function insertblog(id){
+    title=document.getElementById('title').value
+    desc=document.getElementById('desc').value
+    $.post("insertstudentblog",{'title':title,'desc':desc}, function( data ) {
+            closew()
+
+  }
+    );
+}
+</script>
+</body>

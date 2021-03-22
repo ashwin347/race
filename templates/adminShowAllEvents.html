@@ -18,7 +18,7 @@
 
 <td>{{event.1}}</td>
 <td>{{event.3}}</td>
-<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button onclick=editModal({{event.0}}) class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button onclick=editEventModal({{event.0}}) class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editeventmodal" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick=deleteEvent({{event.0}}) class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
 {% if event.4 != 0 %}
 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick=viewSubmits({{event.0}}) class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><b>{{event.4}}</b> | View Submits </button></p></td>
@@ -33,15 +33,16 @@
     $("#rightPane").load("liststudents?id="+id+'&type=eventregistrations&back=showallevents');
   
     }
-  function editModal(id){
+  function editEventModal(id){
     {% for event in events %}
     if({{event.0}}==id)
+    editeventid=id
     {
-      document.getElementById('title').value='{{event.1}}';
-      document.getElementById('description').value='{{event.2}}';
+      document.getElementById('title1').value='{{event.1}}';
+      document.getElementById('description1').value='{{event.2}}';
       var d = new Date("{{event.3}}");
       console.log(d)
-      document.getElementById('date').value=d;
+      document.getElementById('date1').value=d;
     }
     {% endfor %}
   }
@@ -66,6 +67,47 @@
 
       
   </div>
+  <div id="editeventmodal" class="modal fade" role="dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Event Details</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row" style='background-color:white;margin-top:2%'>
+              <form class="col-lg-8" >
+                <div class="row">
+                  <div  class="input-field col s6 notransition">
+                    
+                    <input id="title1" type="text" class="validate notransition">
+                    <label for="title1">Title</label>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="description1" type="text" class="validate">
+                    <label for="description1">description</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="date1" type="date" class="validate">
+                    <label for="date1">date </label>
+                  </div>
+                </div>
+                
+            <a class="waves-effect waves-light btn" onclick=updateEvent() >Update</a>
+              </form>
+              
+            </div>
+                  
+      </div>
+    </div>
+
+</div>
   <div id="myModal" class="modal fade" role="dialog">
   
       <!-- Modal content-->
@@ -98,26 +140,38 @@
                     </div>
                   </div>
                   
-              <a class="waves-effect waves-light btn" onclick=insertNewEvent() >ADD</a>
+              <a class="waves-effect waves-light btn" onclick=updateEvent() >Update</a>
                 </form>
-                <script>
-                    function insertNewEvent(){
-                        title=document.getElementById('title').value;
-                        description=document.getElementById('description').value;
-                        date=document.getElementById('date').value;
-                        $.post('insertnewevent',{'title':title,'description':description,'date':date},function(data,status){
-                            $(".modal-backdrop").remove();
-  $("#myModal").hide();
-                            $("#rightPane").load("showallevents");
-                        })
-                    }
-                </script>
+                
               </div>
                     
         </div>
       </div>
   
   </div>
+  <script>
+    function updateEvent(){
+      id=editeventid;
+        title=document.getElementById('title1').value;
+        description=document.getElementById('description1').value;
+        date=document.getElementById('date1').value;
+        $.post('updateevent',{'id':id,'title':title,'description':description,'date':date},function(data,status){
+            $(".modal-backdrop").remove();
+$("#myModal").hide();
+            $("#rightPane").load("showallevents");
+        })
+    }
+    function insertNewEvent(){
+        title=document.getElementById('title').value;
+        description=document.getElementById('description').value;
+        date=document.getElementById('date').value;
+        $.post('insertnewevent',{'title':title,'description':description,'date':date},function(data,status){
+            $(".modal-backdrop").remove();
+$("#myModal").hide();
+            $("#rightPane").load("showallevents");
+        })
+    }
+</script>
   <div id="myModal" class="modal fade" role="dialog">
   
     <!-- Modal content-->

@@ -103,7 +103,7 @@
     email=document.getElementById('email').value; 
     password=document.getElementById('password').value; 
     console.log({'name':name,'phone':phone,'email':email,'password':password})
-    $.post("updatestudentprofile",{'name':name,'phone':phone,'email':email,'password':password}, function( data ) {
+    $.post("updatestudentprofile",{'id':id,'name':name,'phone':phone,'email':email,'password':password}, function( data ) {
             $("#rightPane").load('studentprofile');
 }
 );
@@ -123,7 +123,7 @@
 
   });}
   function newblogform(){
-    $("#rightPane").load('studentnewblogform');
+    window.open('viewsingleblog?blogid=-1');
   }
   function back(){
     $('#rightPane').load('studentallblogs');

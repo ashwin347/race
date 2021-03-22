@@ -47,6 +47,10 @@ urlpatterns = [
     path('deletejobdata',views.deleteJobData),
     path('showallbloods',views.renderAdminShowBloods),
     path('insertnewblood',views.insertNewBlood),
+    path('updateblood',views.updateBlood),
+    path('updateevent',views.updateEvent),
+    path('updatejob',views.updateJob),
+    
     path('deleteblooddata',views.deleteBloodData),
     path('liststudents',views.renderStudentsList),
     path('showallfeedbacks',views.showAllFeedbacks),
@@ -58,5 +62,6 @@ urlpatterns = [
     path('deletestudentblog',views.deleteStudentBlog),
     path('studentnewblogform',views.renderStudentBlogForm), 
     path('addnewblog',views.insertNewBlog),
+    path('insertstudentblog',views.insertStudentBlog),
     path('logout',views.logout)
 ]

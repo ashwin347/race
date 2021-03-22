@@ -19,7 +19,7 @@
 
 <td>{{job.1}}</td>
 <td>{{job.3}}</td>
-<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button onclick=editModal({{job.0}}) class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button onclick=editJobModal({{job.0}}) class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editjob" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick=deletejob({{job.0}}) class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
 {% if job.4 != 0 %}
 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick=viewSubmits({{job.0}}) class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><b>{{job.4}}</b> | View Submits </button></p></td>
@@ -33,17 +33,18 @@
   function viewSubmits(id){
     $("#rightPane").load("liststudents?id="+id+'&type=jobregistrations&back=showalljobs'); 
     }
-  function editModal(id){
+  function editJobModal(id){
     
     
     {% for job in jobs %}
+    editjobid=id
     if({{job.0}}==id)
     {
-      document.getElementById('title').value='{{job.1}}';
-      document.getElementById('description').value='{{job.2}}';
+      document.getElementById('title1').value='{{job.1}}';
+      document.getElementById('description1').value='{{job.2}}';
       var d = new Date("{{job.3}}");
       console.log(d)
-      document.getElementById('date').value=d;
+      document.getElementById('date1').value=d;
     }
     {% endfor %}
     
@@ -105,24 +106,78 @@
                   
               <a class="waves-effect waves-light btn" onclick=insertNewjob() >ADD</a>
                 </form>
-                <script>
-                    function insertNewjob(){
-                        title=document.getElementById('title').value;
-                        description=document.getElementById('description').value;
-                        date=document.getElementById('date').value;
-                        $.post('insertnewjob',{'title':title,'description':description,'date':date},function(data,status){
-                            $(".modal-backdrop").remove();
-                            $("#myModal").hide();
-                            $("#rightPane").load("showalljobs");
-                        })
-                    }
-                </script>
+                
               </div>
                     
         </div>
       </div>
   
   </div>
+  <div id="editjob" class="modal fade" role="dialog">
+  
+  <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">job Details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row" style='background-color:white;margin-top:2%'>
+            <form class="col-lg-8" >
+              <div class="row">
+                <div  class="input-field col s6 notransition">
+                  
+                  <input id="title1" type="text" class="validate notransition">
+                  <label for="title">Title</label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="description1" type="text" class="validate">
+                  <label for="description">description</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="date1" type="date" class="validate">
+                  <label for="date">date </label>
+                </div>
+              </div>
+              
+          <a class="waves-effect waves-light btn" onclick=updatejob() >Update</a>
+            </form>
+            
+          </div>
+                
+    </div>
+  </div>
+
+</div>
+  <script>
+    var editjobid=null;
+    function updatejob(){
+      id=editjobid
+        title=document.getElementById('title1').value;
+        description=document.getElementById('description1').value;
+        date=document.getElementById('date1').value;
+        $.post('updatejob',{'id':id,'position':title,'description':description,'lastdate':date},function(data,status){
+            $(".modal-backdrop").remove();
+            $("#myModal").hide();
+            $("#rightPane").load("showalljobs");
+        })
+    }
+    function insertNewjob(){
+        title=document.getElementById('title').value;
+        description=document.getElementById('description').value;
+        date=document.getElementById('date').value;
+        $.post('insertnewjob',{'title':title,'description':description,'date':date},function(data,status){
+            $(".modal-backdrop").remove();
+            $("#myModal").hide();
+            $("#rightPane").load("showalljobs");
+        })
+    }
+</script>
   <div id="myModal" class="modal fade" role="dialog">
   
     <!-- Modal content-->
