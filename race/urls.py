@@ -32,6 +32,9 @@ urlpatterns = [
     path('studentjobs',views.renderStudentJobs),
     path('applystudentevents',views.applyStudentEvent),
     path('cancelstudentevents',views.cancelStudentEvent),
+    
+    path('applystudentblood',views.applyStudentblood),
+    path('cancelstudentblood',views.cancelStudentblood),
     path('applystudentjob',views.applyStudentJob),
     path('cancelstudentjob',views.cancelStudentJob),
     path('insertstudentfeedback',views.insertStudentFeedback),

@@ -11,14 +11,14 @@
       <div class="row">
         <div  class="input-field col s6 notransition">
           
-          <input id="first_name" type="text" value={{data.1}} class="validate notransition">
-          <label for="first_name">Name</label>
+          <input id="name" type="text" value={{data.1}} class="validate notransition">
+          <label for="name">Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="disabled" type="Number" value={{data.3}} class="validate">
-          <label for="disabled">Phone</label>
+          <input id="contact" type="Number" value={{data.3}} class="validate">
+          <label for="contact">Phone</label>
         </div>
       </div>
       <div class="row">
@@ -29,18 +29,18 @@
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="email" type="text" value={{data.5}} class="validate">
-          <label for="email">Blood</label>
+          <input id="blood" type="text" value={{data.5}} class="validate">
+          <label for="blood">Blood</label>
         </div>
       </div>
       
   <a class="waves-effect waves-light btn" onclick='updatestudentprofile({{data.0}})'><i class="material-icons left"></i>UPDATE</a>
     </form>
     <script>
-      document.getElementById('first_name').focus()
-      document.getElementById('disabled').focus()
+      document.getElementById('name').focus()
+      document.getElementById('contact').focus()
       document.getElementById('password').focus()
-      document.getElementById('email').focus()
+      document.getElementById('blood').focus()
       
       inputs=document.getElementsByTagName('input')
       console.log(inputs)

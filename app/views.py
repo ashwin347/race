@@ -31,6 +31,7 @@ def adminLoginValidation(request):          # validates user login
     else:
         connection=mysql.connector.connect(host='localhost',user='root',password='',database='race')
         cursor=connection.cursor()
+        print(email,password)
         cursor.execute('SELECT * FROM students where email="'+email+'" and password= "'+password+'"')
         users=cursor.fetchall()
         if len(users)==0:
@@ -245,7 +246,46 @@ def viewStudentDetails(request):  # returns all the details of students
 def viewJobs(request):
     return render(request,'studentJobs.html')
 def renderStudentBlood(request):
-    return render(request,'studentBlood.html')
+    connection=mysql.connector.connect(host='localhost',user='root',password='',database='race')
+    cursor=connection.cursor()
+    cursor.execute('SELECT *, COUNT(r.bloodid) AS "counts" FROM requirement b LEFT JOIN bloodregistrations r on b.id = r.bloodid GROUP BY b.id')
+    bloods=cursor.fetchall()
+    bloodslist=[]
+    for i in range(len(bloods)):
+        email=request.session['email']
+        blood=bloods[i]
+        blood=list(blood)
+        bloodid=bloods[i][0]
+        check=cursor.execute('SELECT bloodid, studentid FROM bloodregistrations')
+        check=cursor.fetchall()
+        if len(check)==0:
+            blood.append('false')
+        else:
+            blood.append('true')
+        print(blood)
+        bloodslist.append(blood)
+    cursor.close()
+    return render(request,'studentBlood.html',{'bloods':bloodslist})
+@csrf_exempt
+def applyStudentblood(request):
+    email=request.session['email']
+    bloodId=request.POST['bloodid']
+    connection=mysql.connector.connect(host='localhost',user='root',password='',database='race')
+    cursor=connection.cursor()
+    cursor.execute('INSERT INTO bloodregistrations(bloodid, studentId) SELECT '+bloodId+',s.id FROM students s where s.email="'+email+'"')
+    connection.commit()
+    cursor.close()
+    return render(request,'studentblood.html')
+@csrf_exempt
+def cancelStudentblood(request):
+    email=request.session['email']
+    bloodId=request.POST['bloodid']
+    connection=mysql.connector.connect(host='localhost',user='root',password='',database='race')
+    cursor=connection.cursor()
+    cursor.execute('DELETE FROM bloodregistrations WHERE bloodid='+str(bloodId)+' AND studentId=(SELECT id from students WHERE email="'+email+'")')
+    connection.commit()
+    cursor.close()
+    return render(request,'studentblood.html')
 def renderStudentJobs(request):
     email=request.session['email']
     connection=mysql.connector.connect(host='localhost',user='root',password='',database='race')
@@ -351,11 +391,15 @@ def updateStudentProfile(request):
     id=request.POST['id']
     name=request.POST['name']
     phone=request.POST['phone']
-    email=request.POST['email']
+     
+    blood=request.POST['blood']
     password=request.POST['password']
-    print(name,phone,email,password)
-    print("UPDATE students SET name='"+name+"',email='"+email+"',password='"+password+"',phone='"+phone+"' WHERE id='"+str(id)+"'")
-    cursor.execute("UPDATE students SET name='"+name+"',blood='"+email+"',password='"+password+"',phone='"+phone+"' WHERE id='"+str(id)+"'")
+    try:
+        email=request.POST['email']
+        sql="UPDATE students SET name='"+name+"',blood='"+blood+"',password='"+password+"',phone='"+phone+"',email='"+email+"' WHERE id='"+str(id)+"'"
+    except:
+        sql="UPDATE students SET name='"+name+"',blood='"+blood+"',password='"+password+"',phone='"+phone+"' WHERE id='"+str(id)+"'"
+    cursor.execute(sql)
     connection.commit()
     return render(request,'studentProfile.html')
 

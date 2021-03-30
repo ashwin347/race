@@ -81,6 +81,10 @@
                         title=document.getElementById('title').value;
                         description=document.getElementById('description').value;
                         date=document.getElementById('date').value;
+                        if(title=='' || description=='' || date==''){
+            alert('values cannot be empty');
+            return;
+          }
                         $.post('insertnewevent',{'title':title,'description':description,'date':date},function(data,status){
                             $(".modal-backdrop").remove();
   $("#myModal").hide();

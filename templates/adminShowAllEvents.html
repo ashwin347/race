@@ -28,21 +28,35 @@
 </tr>
 {% endfor %}
 <script>
-  
+  editeventid=null;
   function viewSubmits(id){
     $("#rightPane").load("liststudents?id="+id+'&type=eventregistrations&back=showallevents');
   
     }
   function editEventModal(id){
+    editeventid=id
     {% for event in events %}
     if({{event.0}}==id)
-    editeventid=id
     {
       document.getElementById('title1').value='{{event.1}}';
       document.getElementById('description1').value='{{event.2}}';
-      var d = new Date("{{event.3}}");
-      console.log(d)
-      document.getElementById('date1').value=d;
+       d = new Date("{{event.3}}");
+
+      month=d.getMonth()
+      month=month+1
+      month=String(month)
+      console.log(month)
+      if (month.length==1){
+        month='0'+month
+
+      }
+      tdate=d.getDay()
+      tdate=String(tdate)
+      if (tdate.length==1){
+        tdate='0'+tdate
+      }
+      ndate=d.getFullYear()+"-"+month+'-'+tdate
+      document.getElementById('date1').value=ndate;
     }
     {% endfor %}
   }
@@ -79,23 +93,26 @@
           <div class="row" style='background-color:white;margin-top:2%'>
               <form class="col-lg-8" >
                 <div class="row">
+                  
+                  <label for="title1">Title</label>
                   <div  class="input-field col s6 notransition">
                     
                     <input id="title1" type="text" class="validate notransition">
-                    <label for="title1">Title</label>
                   </div>
                 </div>
                 
                 <div class="row">
+                  
+                  <label for="description1">description</label>
                   <div class="input-field col s12">
                     <input id="description1" type="text" class="validate">
-                    <label for="description1">description</label>
                   </div>
                 </div>
                 <div class="row">
+                  
+                  <label for="date1">date </label>
                   <div class="input-field col s12">
                     <input id="date1" type="date" class="validate">
-                    <label for="date1">date </label>
                   </div>
                 </div>
                 
@@ -123,7 +140,7 @@
                     <div  class="input-field col s6 notransition">
                       
                       <input id="title" type="text" class="validate notransition">
-                      <label for="title">Title</label>
+                      <label style="position: absolute;" for="title">Title</label>
                     </div>
                   </div>
                   
@@ -155,6 +172,10 @@
         title=document.getElementById('title1').value;
         description=document.getElementById('description1').value;
         date=document.getElementById('date1').value;
+        if(title=='' || description=='' || date==''){
+            alert('values cannot be empty');
+            return;
+          }
         $.post('updateevent',{'id':id,'title':title,'description':description,'date':date},function(data,status){
             $(".modal-backdrop").remove();
 $("#myModal").hide();
@@ -165,6 +186,10 @@ $("#myModal").hide();
         title=document.getElementById('title').value;
         description=document.getElementById('description').value;
         date=document.getElementById('date').value;
+        if(title=='' || description=='' || date==''){
+            alert('values cannot be empty');
+            return;
+          }
         $.post('insertnewevent',{'title':title,'description':description,'date':date},function(data,status){
             $(".modal-backdrop").remove();
 $("#myModal").hide();

@@ -94,16 +94,24 @@
             $("#rightPane").load("showallblogs");
 
   function viewblog(id){
-    window.open('viewsingleblog?blogid='+id);
+    $("#rightPane").load('viewsingleblog?blogid='+id);
   }
  
   function updatestudentprofile(id){
-    name=document.getElementById('first_name').value; 
-    phone=document.getElementById('disabled').value; 
-    email=document.getElementById('email').value; 
+    name=document.getElementById('name').value; 
+    phone=document.getElementById('contact').value; 
+    blood=document.getElementById('blood').value; 
     password=document.getElementById('password').value; 
-    console.log({'name':name,'phone':phone,'email':email,'password':password})
-    $.post("updatestudentprofile",{'id':id,'name':name,'phone':phone,'email':email,'password':password}, function( data ) {
+    var n = phone.search("^\\d{10}$");
+          if(n==-1){
+            alert('please check phone number');
+            return
+          }
+    if(name=='' || phone=='' || blood=='' || password==''){
+      alert('values cannot be empty')
+      return;
+    }
+    $.post("updatestudentprofile",{'id':id,'name':name,'phone':phone,'blood':blood,'password':password}, function( data ) {
             $("#rightPane").load('studentprofile');
 }
 );
@@ -117,13 +125,17 @@
   function submitnewblog(){
     title=document.getElementById('newtitle').value
     desc=document.getElementById('newdesc').value
-    console.log(title,desc)
+    if(title=='' || desc=='' ){
+            alert('values cannot be empty');
+            return;
+          }
     $.post("addnewblog",{'title':title,'desc':desc}, function( data ) {
-            $("#rightPane").load('showallblogs');
+            //$("#rightPane").load('showallblogs');
+            location.reload()
 
   });}
   function newblogform(){
-    window.open('viewsingleblog?blogid=-1');
+    $("#rightPane").load('viewsingleblog?blogid=-1');
   }
   function back(){
     $('#rightPane').load('studentallblogs');

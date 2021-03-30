@@ -15,6 +15,10 @@
     <script>
       function sendfeedback(){
         data=document.getElementById('icon_prefix2').value;
+        if(data==''){
+          alert('Feedback Cannot be empty')
+          return
+        }
     $.get('insertstudentfeedback',{'feedback':data}, function(data, status){
       alert('feedback successfull');
 }); 

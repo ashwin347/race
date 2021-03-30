@@ -1,65 +1,124 @@
 
-       
-         
-            <div class="table-responsive">
-              <table id="mytable" style='background-color:white' class="responsive-table centered stripped">
-                   
-                   <thead style='background-color: #26a69a; color: white '>
-                   
-                   <th>Requirement</th>
-                    <th>Status</th>
-                   </thead>
-    <tbody>
-      {% for job in jobs %}
-      <td>{{job.1}}</td>
-      <td>{{job.3}}</td>
-    <td>
-      {% if job.4 == 'false' %}
-      <p onclick='apply({{job.0}})' data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="eventModal" data-target="#edit" ><span class="glyphicon glyphicon-star"></span>Apply</button></p>
-      {% else %}
-      <p onclick='cancel({{job.0}})' data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="eventModal" data-target="#edit" ><span class="glyphicon glyphicon-star"></span>Cancel</button></p>
-      {% endif %}
-    </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-        
-</table>
-<script>
-  function apply(id){
-    $.post('applystudentjob',{'jobid':id}, function(data, status){
-      $("#rightPane").load("studentjobs");
-}); 
-  }
-  function cancel(id){
-    $.post('cancelstudentjob',{'jobid':id}, function(data, status){
-      $("#rightPane").load("studentjobs");
-}); 
-  }
-</script>
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-  <div class="modal-dialog">
-<div class="modal-content">
-      <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-    <h4 class="modal-title custom_align" id="Heading"> {{event.1}}</h4>
-  </div>
-      <div class="modal-body">
-     
-    <div id='description'></div>
+<div class="table-responsive">
 
+                
+    <table id="mytable" class="table table-bordred table-striped">
+         
+         <thead style='background-color:#50509c;color:white'>
+         <th>Recipient Name</th>
+         <th>Contact Number</th>
+         <th>required blood group</th>   
+         <th>Apply</th>
+         </thead>
+<tbody>
+{% for blood in bloods %}
+<tr>
+
+<td>{{blood.3}}</td>
+<td>{{blood.2}}</td>
+<td>{{blood.1}}</td>
+<td>
+  {% if blood.7 == 'false' %}
+  <p onclick='applyblood({{blood.0}})' data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="eventModal" data-target="#edit" ><span class="glyphicon glyphicon-star"></span>Apply</button></p>
+  {% else %}
+  <p onclick='cancelblood({{blood.0}})' data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="eventModal" data-target="#edit" ><span class="glyphicon glyphicon-star"></span>Cancel</button></p>
+  {% endif %}
+</td>
+</tr>
+{% endfor %}
+<script>
+  function applyblood(id){
+    $.post('applystudentblood',{'bloodid':id}, function(data, status){
+      $("#rightPane").load("studentblood");
+}); 
+  }
+  function cancelblood(id){
+    $.post('cancelstudentblood',{'bloodid':id}, function(data, status){
+      $("#rightPane").load("studentblood");
+}); 
+  }
+  var editbloodid=null;
+  function viewSubmits(id){
+    $("#rightPane").load("liststudents?id="+id+'&type=bloodregistrations&back=showallbloods'); 
+    }
+  function editBloodModal(id){
     
-    </div>
+    document.getElementById('name1').focus();
+      document.getElementById('blood1').focus();
+      document.getElementById('contact1').focus();
+    {% for blood in bloods %}
+    if({{blood.0}}==id)
+    {
+      editbloodid=id;
+      document.getElementById('name1').value='{{blood.3}}';
+      document.getElementById('blood1').value='{{blood.1}}';
+      document.getElementById('contact1').value='{{blood.2}}';
+      var d = new Date("{{blood.3}}");
+      console.log(d)
+      //document.getElementById('date').value=d;
+    }
+    {% endfor %}
+    
+  }
+  function editBlood(id){
+    title=document.getElementById('title').value;
+                        description=document.getElementById('description').value;
+                        date=document.getElementById('date').value;
+  }
+    function deleteBlood(id){
+        $.post( "deleteblooddata",{'id':id}, function( data ) {
+            $("#rightPane").load("showallbloods");
+}
+);
+    }
+    function updateBlood(){
+        name=document.getElementById('name1').value;
+          contact=document.getElementById('contact1').value;
+          var n = contact.search("^\\d{10}$");
+          if(n==-1){
+            alert('please check phone number');
+            return
+          }
+          blood=document.getElementById('blood1').value;
+          if(name=='' || contact=='' || blood==''){
+            alert('values cannot be empty');
+            return;
+          }
+          $.post('updateblood',{'id':editbloodid,'name':name,'contact':contact,'blood':blood},function(data,status){
+
+            $(".modal-backdrop").remove();
+$("#myModal").hide();
+              $("#rightPane").load("showallbloods");
+          })
+      }
+      function insertNewBlood(){
+          name=document.getElementById('name').value;
+          contact=document.getElementById('contact').value;
+          var n = contact.search("^\\d{10}$");
+          if(n==-1){
+            alert('please check phone number');
+            return
+          }
+          blood=document.getElementById('blood').value;
+          if(name=='' || contact=='' || blood==''){
+            alert('values cannot be empty');
+            return;
+          }
+          $.post('insertnewblood',{'name':name,'contact':contact,'blood':blood},function(data,status){
+
+            $(".modal-backdrop").remove();
+$("#myModal").hide();
+              $("#rightPane").load("showallbloods");
+          })
+      }
+</script>
+
+
+</tbody>
+
+</table>
+
+
+      
   </div>
-      <div class="modal-footer ">
-    <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-  </div>
-    </div>
-<!-- /.modal-content --> 
-</div>
-  <!-- /.modal-dialog --> 
-</div>
-   
-            </div>
-            
-    </div>
+  
